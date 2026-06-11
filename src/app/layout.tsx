@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Project Initializr",
-  description: "Geração de projetos web configurados com sua stack",
+  title: "Forge — Gerador de projetos web",
+  description: "Gere projetos Next.js e React configurados com sua stack em segundos.",
 };
 
 export default function RootLayout({

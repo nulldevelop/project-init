@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface OptionTileProps {
@@ -8,27 +9,54 @@ interface OptionTileProps {
   description: string;
   selected: boolean;
   disabled?: boolean;
+  multi?: boolean;
   onClick: () => void;
 }
 
-export function OptionTile({ icon, label, description, selected, disabled, onClick }: OptionTileProps) {
+export function OptionTile({ icon, label, description, selected, disabled, multi, onClick }: OptionTileProps) {
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "flex flex-col gap-1.5 rounded-lg border p-3.5 text-left transition-all",
-        "w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
-        selected
-          ? "border-blue-500 bg-blue-500/10 text-zinc-100"
-          : "border-zinc-700 bg-zinc-800/50 text-zinc-300 hover:border-zinc-500 hover:bg-zinc-800",
-        disabled && "cursor-not-allowed opacity-40"
+        "group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-all duration-100",
+        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-orange-500/60",
+        selected ? "bg-orange-500/[0.07] text-zinc-100" : "text-zinc-400 hover:bg-white/[0.03] hover:text-zinc-200",
+        disabled && "pointer-events-none opacity-30"
       )}
     >
-      <span className="text-xl leading-none">{icon}</span>
-      <span className="text-sm font-medium leading-none">{label}</span>
-      <span className="text-xs text-zinc-500 leading-snug">{description}</span>
+      {/* Indicator */}
+      {multi ? (
+        <div
+          className={cn(
+            "flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded border-2 transition-colors",
+            selected ? "border-orange-500 bg-orange-500" : "border-zinc-700"
+          )}
+        >
+          {selected && <Check className="h-2 w-2 text-white" strokeWidth={3} />}
+        </div>
+      ) : (
+        <div
+          className={cn(
+            "flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+            selected ? "border-orange-500" : "border-zinc-700"
+          )}
+        >
+          {selected && <div className="h-1.5 w-1.5 rounded-full bg-orange-500" />}
+        </div>
+      )}
+
+      {/* Icon */}
+      <span className="shrink-0 text-base leading-none">{icon}</span>
+
+      {/* Text */}
+      <div className="min-w-0 flex-1">
+        <p className={cn("truncate text-[12px] font-medium leading-none", selected ? "text-zinc-100" : "text-zinc-300")}>
+          {label}
+        </p>
+        <p className="mt-0.5 truncate text-[11px] leading-none text-zinc-500">{description}</p>
+      </div>
     </button>
   );
 }
